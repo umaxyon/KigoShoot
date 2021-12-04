@@ -1,6 +1,8 @@
 import Phaser from "phaser"
 
 class MyScene extends Phaser.Scene {
+    private shiftPress: boolean = false
+
     constructor() {
         super({ key: 'myscene' });
     }
@@ -31,6 +33,21 @@ class MyScene extends Phaser.Scene {
         logo.setCollideWorldBounds(true);
 
         emitter.startFollow(logo);
+
+
+        this.input.keyboard.on('keydown', (e: any) => {
+            if (e.keyCode === 16) {  // 16 <- Shift
+                this.shiftPress = true
+            } else {
+                console.log(`${e.keyCode}  shift=${this.shiftPress}`)
+            }
+        })
+
+        this.input.keyboard.on('keyup', (e: any) => {
+            if (e.keyCode === 16) {  // 16 <- Shift
+                this.shiftPress = false
+            }
+        })
     }
 }
 
