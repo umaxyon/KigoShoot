@@ -5,6 +5,7 @@ import imgWall from "../../assets/wall.png"
 import imgLine from "../../assets/line.png"
 import imgLogo from "../../assets/phaser3-logo.png"
 import imgRed from "../../assets/red.png"
+import imgBullet from "../../assets/star.png"
 import imgSenkan from "../../assets/war_senkan_man.png"
 
 
@@ -62,7 +63,6 @@ class ImgHolder {
             "logo": imgLogo,
             "red": imgRed,
             "line": imgLine,
-            "senkan": imgSenkan,
             "33": chr33,
             "34": chr34,
             "35": chr35,
@@ -105,6 +105,8 @@ class ImgHolder {
             "124": chr124,
             "125": chr125,
             "126": chr126,
+            "bullet": imgBullet,
+            "senkan": imgSenkan,
         }
     }
     
