@@ -8,6 +8,8 @@ class Bullet extends Phaser.GameObjects.Image {
     direction
     xSpeed
     ySpeed
+    emitter?: Phaser.GameObjects.Particles.ParticleEmitter
+
     constructor(scene: MainScene) {
         super(scene, 0, 0, 'bullet')
         this.speed = 5
@@ -33,12 +35,20 @@ class Bullet extends Phaser.GameObjects.Image {
         this.rotation = shooter.rotation
         this.born = 0
 
-        this.createEmitter().setPosition(shooter.x, shooter.y).startFollow(this)
+        this.emitter = this.createEmitter()
+        this.emitter.setPosition(shooter.x, shooter.y).startFollow(this)
     }
     
+    hitCallback(enemy: any) {
+        if (enemy.active === true && this.active === true) {
+            enemy.setActive(false).setVisible(false)
+            this.setActive(false).setVisible(false)
+        }
+    }
+
     createEmitter() {
         return this.scene.add.particles("red").createEmitter({
-            speed: 30,
+            speed: 20,
             scale: { start: 0.5, end: 0 },
             blendMode: "ADD"
         })
@@ -52,6 +62,11 @@ class Bullet extends Phaser.GameObjects.Image {
             this.setActive(false)
             this.setVisible(false)
         }
+    }
+
+    deactive() {
+        this.setActive(false).setVisible(false)
+        this.emitter?.setVisible(false)
     }
 }
 
