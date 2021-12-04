@@ -1,10 +1,12 @@
 import Phaser from "phaser"
+import KeyProcessor from "../core/KeyProcessor";
 
 class MyScene extends Phaser.Scene {
-    private shiftPress: boolean = false
+    keyPrc: KeyProcessor
 
     constructor() {
         super({ key: 'myscene' });
+        this.keyPrc = new KeyProcessor(this)
     }
     
     preload() {
@@ -13,6 +15,10 @@ class MyScene extends Phaser.Scene {
         this.load.image("sky", "assets/skies/space3.png");
         this.load.image("logo", "assets/sprites/phaser3-logo.png");
         this.load.image("red", "assets/particles/red.png");
+
+        this.keyPrc.attachEvent().addListner((keyCode: number, pressShift: boolean) => {
+            console.log(`${keyCode}  shift=${pressShift}`)
+        })
     }
     
     create() {
@@ -33,21 +39,6 @@ class MyScene extends Phaser.Scene {
         logo.setCollideWorldBounds(true);
 
         emitter.startFollow(logo);
-
-
-        this.input.keyboard.on('keydown', (e: any) => {
-            if (e.keyCode === 16) {  // 16 <- Shift
-                this.shiftPress = true
-            } else {
-                console.log(`${e.keyCode}  shift=${this.shiftPress}`)
-            }
-        })
-
-        this.input.keyboard.on('keyup', (e: any) => {
-            if (e.keyCode === 16) {  // 16 <- Shift
-                this.shiftPress = false
-            }
-        })
     }
 }
 
