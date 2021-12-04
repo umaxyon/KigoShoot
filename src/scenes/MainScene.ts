@@ -3,6 +3,12 @@ import KeyProcessor from "../core/KeyProcessor"
 import ImgHolder from "../core/ImgHolder"
 import Bullet from "../core/Bullet"
 
+interface GameStatus {
+    score: number,
+    speed: number,
+    maxEnemy: number
+}
+
 class MainScene extends Phaser.Scene {
     keyPrc: KeyProcessor
     imgs: ImgHolder
@@ -10,13 +16,24 @@ class MainScene extends Phaser.Scene {
     ballets?: Phaser.Physics.Arcade.Group
     chrs?: Phaser.Physics.Arcade.Group
     senkan?: Phaser.Physics.Arcade.Image
+    st: GameStatus
+    labelScore?: Phaser.GameObjects.Text
 
     constructor() {
         super({ key: 'mainscene' })
         this.keyPrc = new KeyProcessor(this)
         this.imgs = new ImgHolder(this)
+        this.st = this.initStatus()
     }
     
+    initStatus(): GameStatus {
+        return {
+            score: 0,
+            speed: 20,
+            maxEnemy: 1
+        }
+    }
+
     preload() {
         this.imgs.load()
         this.walls = this.physics.add.staticGroup()
@@ -30,17 +47,17 @@ class MainScene extends Phaser.Scene {
                     const bullet = this.ballets?.get().setActive(true).setVisible(true)
                     if (bullet) {
                         bullet.fire(this.senkan, enemy)
-                        this.physics.add.overlap(enemy, bullet, this.hitCallback)
+                        this.physics.add.overlap(enemy, bullet, (enemy: any, bullet: any) => {
+                            if (enemy.active === true && bullet.active === true) {
+                                enemy.destroy()
+                                this.st.score += 10
+                                this.labelScore!.setText(`Score: ${this.st.score}`)
+                            }
+                        })
                     }
                 }
             })
         })
-    }
-    
-    hitCallback(enemy: any, bullet: any) {
-        if (enemy.active === true && bullet.active === true) {
-            enemy.destroy()
-        }
     }
 
     create() {
@@ -51,16 +68,18 @@ class MainScene extends Phaser.Scene {
         this.walls!.create(-15, 300, "wall")
         this.walls!.create(815, 300, "wall")
 
+        this.labelScore = this.add.text(16, 560, `Score: 0`, { fontSize: '15px', color: '#022', fontStyle: 'bold', fontFamily: 'メイリオ' })
+
         this.physics.add.collider(this.chrs!, this.walls!)
     }
 
     createEnemy() {
         const code = this.keyPrc.getRundomKeyCode()
-        const enemy = this.chrs!.create(Phaser.Math.Between(30, 770), 5, code).setScale(0.3)
+        const enemy = this.chrs!.create(Phaser.Math.Between(30, 770), -13, code).setScale(0.3)
         enemy.setName(code)
         enemy.setBounce(1)
         enemy.setCollideWorldBounds(false, 1, 0)
-        enemy.setVelocity(Phaser.Math.Between(-80, 80), 25)
+        enemy.setVelocity(Phaser.Math.Between(-80, 80), this.st.speed)
         enemy.allowGravity = false
         enemy.setVisible(true).setActive(true)
     }
@@ -70,7 +89,7 @@ class MainScene extends Phaser.Scene {
     }
 
     update() {
-        while (this.chrs!.countActive(true) < 4) {
+        while (this.chrs!.countActive(true) < this.st.maxEnemy) {
             this.createEnemy()
         }
     }
