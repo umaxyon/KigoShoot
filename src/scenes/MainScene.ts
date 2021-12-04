@@ -1,20 +1,25 @@
 import Phaser from "phaser"
 import KeyProcessor from "../core/KeyProcessor";
+import imgSky from "../../assets/sky.png"
+import imgLine from "../../assets/line.png"
+import imgLogo from "../../assets/phaser3-logo.png"
+import imgRed from "../../assets/red.png"
+import imgSenkan from "../../assets/war_senkan_man.png"
 
 class MyScene extends Phaser.Scene {
     keyPrc: KeyProcessor
 
     constructor() {
-        super({ key: 'mainscene' });
+        super({ key: 'mainscene' })
         this.keyPrc = new KeyProcessor(this)
     }
     
     preload() {
-        this.load.setBaseURL("https://labs.phaser.io");
-
-        this.load.image("sky", "assets/skies/space3.png");
-        this.load.image("logo", "assets/sprites/phaser3-logo.png");
-        this.load.image("red", "assets/particles/red.png");
+        this.load.image("sky", imgSky)
+        this.load.image("logo", imgLogo)
+        this.load.image("red", imgRed)
+        this.load.image("line", imgLine)
+        this.load.image("senkan", imgSenkan)
 
         this.keyPrc.attachEvent().addListner((keyCode: number, pressShift: boolean) => {
             const asciiCode = this.keyPrc.downKeyCodeToAscii(keyCode, pressShift)
@@ -24,6 +29,8 @@ class MyScene extends Phaser.Scene {
     
     create() {
         this.add.image(400, 300, "sky");
+        this.add.image(400, 600, "line")
+        this.add.image(400, 550, 'senkan').setScale(0.7)
 
         const particles = this.add.particles("red");
 
