@@ -17,7 +17,8 @@ class MyScene extends Phaser.Scene {
         this.load.image("red", "assets/particles/red.png");
 
         this.keyPrc.attachEvent().addListner((keyCode: number, pressShift: boolean) => {
-            console.log(`${keyCode}  shift=${pressShift}`)
+            const asciiCode = this.keyPrc.downKeyCodeToAscii(keyCode, pressShift)
+            console.log(`${keyCode}: ${String.fromCharCode(asciiCode)}`)
         })
     }
     
