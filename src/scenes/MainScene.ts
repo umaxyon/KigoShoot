@@ -5,6 +5,7 @@ import ImgHolder from "../core/ImgHolder"
 class MainScene extends Phaser.Scene {
     keyPrc: KeyProcessor
     imgs: ImgHolder
+    walls?: Phaser.Physics.Arcade.StaticGroup
     chrGroup?: Phaser.Physics.Arcade.Group
 
     constructor() {
@@ -15,6 +16,7 @@ class MainScene extends Phaser.Scene {
     
     preload() {
         this.imgs.load()
+        this.walls = this.physics.add.staticGroup();
         this.chrGroup = this.physics.add.group()
 
         this.keyPrc.attachEvent().addListner((keyCode: number, pressShift: boolean) => {
@@ -28,10 +30,14 @@ class MainScene extends Phaser.Scene {
         this.add.image(400, 600, "line")
         this.add.image(400, 550, 'senkan').setScale(0.7)
 
+        this.walls!.create(-15, 300, "wall")
+        this.walls!.create(815, 300, "wall")
+
 
         while (this.chrGroup!.countActive(true) < 4) {
             this.createEnemy()
         }
+        this.physics.add.collider(this.chrGroup!, this.walls!);
 
         // const particles = this.add.particles("red");
 

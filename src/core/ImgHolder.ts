@@ -1,6 +1,7 @@
 import MainScene from "../scenes/MainScene"
 
 import imgSky from "../../assets/sky.png"
+import imgWall from "../../assets/wall.png"
 import imgLine from "../../assets/line.png"
 import imgLogo from "../../assets/phaser3-logo.png"
 import imgRed from "../../assets/red.png"
@@ -57,6 +58,7 @@ class ImgHolder {
     constructor(private scene: MainScene) {
         this.imgs = {
             "sky": imgSky,
+            "wall": imgWall,
             "logo": imgLogo,
             "red": imgRed,
             "line": imgLine,
