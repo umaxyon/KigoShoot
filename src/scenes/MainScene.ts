@@ -51,6 +51,7 @@ class MainScene extends Phaser.Scene {
                             if (enemy.active === true && bullet.active === true) {
                                 enemy.destroy()
                                 this.st.score += 10
+                                this.st.maxEnemy = Math.floor(this.st.score / 100) + 1
                                 this.labelScore!.setText(`Score: ${this.st.score}`)
                             }
                         })
