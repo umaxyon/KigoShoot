@@ -1,25 +1,19 @@
 import Phaser from "phaser"
-import KeyProcessor from "../core/KeyProcessor";
-import imgSky from "../../assets/sky.png"
-import imgLine from "../../assets/line.png"
-import imgLogo from "../../assets/phaser3-logo.png"
-import imgRed from "../../assets/red.png"
-import imgSenkan from "../../assets/war_senkan_man.png"
+import KeyProcessor from "../core/KeyProcessor"
+import ImgHolder from "../core/ImgHolder"
 
-class MyScene extends Phaser.Scene {
+class MainScene extends Phaser.Scene {
     keyPrc: KeyProcessor
+    imgs: ImgHolder
 
     constructor() {
         super({ key: 'mainscene' })
         this.keyPrc = new KeyProcessor(this)
+        this.imgs = new ImgHolder(this)
     }
     
     preload() {
-        this.load.image("sky", imgSky)
-        this.load.image("logo", imgLogo)
-        this.load.image("red", imgRed)
-        this.load.image("line", imgLine)
-        this.load.image("senkan", imgSenkan)
+        this.imgs.load()
 
         this.keyPrc.attachEvent().addListner((keyCode: number, pressShift: boolean) => {
             const asciiCode = this.keyPrc.downKeyCodeToAscii(keyCode, pressShift)
@@ -50,4 +44,4 @@ class MyScene extends Phaser.Scene {
     }
 }
 
-export default MyScene
+export default MainScene
