@@ -5,7 +5,7 @@ class MyScene extends Phaser.Scene {
     keyPrc: KeyProcessor
 
     constructor() {
-        super({ key: 'myscene' });
+        super({ key: 'mainscene' });
         this.keyPrc = new KeyProcessor(this)
     }
     

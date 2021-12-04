@@ -1,5 +1,5 @@
 import Phaser from "phaser"
-import MyScene from "../scenes/MyScene"
+import MainScene from "../scenes/MainScene"
 
 
 const KEY_SHIFT = 16
@@ -10,7 +10,7 @@ class KeyProcessor {
     private shiftPress: boolean = false
     private listners: KeyListner[] = [] 
 
-    constructor(private scene: MyScene) {}
+    constructor(private scene: MainScene) {}
 
     addListner(fn: KeyListner) {
         this.listners.push(fn)

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import './App.css'
 import Phaser from "phaser";
-import MyScene from "./scenes/MyScene";
+import MainScene from "./scenes/MainScene";
 
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
           gravity: { y: 200 },
         },
       },
-      scene: MyScene,
+      scene: MainScene,
     };
     new Phaser.Game(config);
   }, [0])
