@@ -24,7 +24,7 @@ class MainScene extends Phaser.Scene {
     constructor() {
         super({ key: 'mainscene' })
         this.keyPrc = new KeyProcessor(this)
-        this.imgs = new ImgHolder(this)
+        this.imgs = new ImgHolder()
         this.st = this.initStatus()
     }
     
@@ -38,7 +38,7 @@ class MainScene extends Phaser.Scene {
     }
 
     preload() {
-        this.imgs.load()
+        this.imgs.loadMain(this)
         this.walls = this.physics.add.staticGroup()
         this.chrs = this.physics.add.group()
         this.ballets = this.physics.add.group({ classType: Bullet, runChildUpdate: true })

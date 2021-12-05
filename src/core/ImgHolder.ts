@@ -1,12 +1,14 @@
 import MainScene from "../scenes/MainScene"
+import TitleScene from "../scenes/TitleScene"
 
 import imgSky from "../../assets/sky.png"
 import imgWall from "../../assets/wall.png"
 import imgLine from "../../assets/line.png"
-import imgLogo from "../../assets/phaser3-logo.png"
 import imgRed from "../../assets/red.png"
 import imgBullet from "../../assets/star.png"
 import imgSenkan from "../../assets/senkan_sp.png"
+import imgTitle from "../../assets/title.png"
+import imgStart from "../../assets/start.png"
 
 
 import chr33 from "../../assets/char/33.png"
@@ -56,11 +58,10 @@ import chr126 from "../../assets/char/126.png"
 class ImgHolder {
     imgs: {[key: string]: string}
 
-    constructor(private scene: MainScene) {
+    constructor() {
         this.imgs = {
             "sky": imgSky,
             "wall": imgWall,
-            "logo": imgLogo,
             "red": imgRed,
             "line": imgLine,
             "33": chr33,
@@ -105,15 +106,22 @@ class ImgHolder {
             "124": chr124,
             "125": chr125,
             "126": chr126,
-            "bullet": imgBullet,
+            "bullet": imgBullet
         }
     }
     
-    load() {
+    loadMain(scene: MainScene) {
         Object.keys(this.imgs).forEach(key => {
-            this.scene.load.image(key, this.imgs[key])
+            scene.load.image(key, this.imgs[key])
         })
-        this.scene.load.spritesheet('senkan', imgSenkan, { frameWidth: 180, frameHeight: 140 })
+        scene.load.spritesheet('senkan', imgSenkan, { frameWidth: 180, frameHeight: 140 })
+    }
+
+    loadTitle(scene: TitleScene) {
+        scene.load.image('sky', imgSky)
+        scene.load.image('line', imgLine)
+        scene.load.image('title', imgTitle)
+        scene.load.image('start', imgStart)
     }
 }
 export default ImgHolder
