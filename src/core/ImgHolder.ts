@@ -12,6 +12,7 @@ import imgBtnStart from "../../assets/start.png"
 import imgGameOver from "../../assets/gameover.png"
 import imgBtnTitle from "../../assets/btn_title.png"
 import imgBtnRetry from "../../assets/btn_retry.png"
+import imgTag from "../../assets/tag.png"
 
 
 import chr33 from "../../assets/char/33.png"
@@ -112,7 +113,8 @@ class ImgHolder {
             "bullet": imgBullet,
             "gameover": imgGameOver,
             "btn_title": imgBtnTitle,
-            "btn_retry": imgBtnRetry
+            "btn_retry": imgBtnRetry,
+            "tag": imgTag
         }
     }
     
@@ -127,6 +129,7 @@ class ImgHolder {
         scene.load.image('sky', imgSky)
         scene.load.image('line', imgLine)
         scene.load.image('title', imgTitle)
+        scene.load.image('tag', imgTag)
         scene.load.image('btn_start', imgBtnStart)
     }
 }

@@ -71,6 +71,7 @@ class MainScene extends Phaser.Scene {
         this.add.image(400, 300, "sky")
         this.line = this.physics.add.image(400, 600, "line")
         this.senkan = this.physics.add.sprite(400, 550, 'senkan').setScale(0.7)
+        this.add.image(730, 585, "tag")
 
         this.walls!.create(-15, 300, "wall")
         this.walls!.create(815, 300, "wall")

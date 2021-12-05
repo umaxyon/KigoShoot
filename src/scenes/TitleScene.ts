@@ -21,6 +21,8 @@ class TitleScene extends Phaser.Scene {
         this.add.image(400, 300, "sky")
         this.add.image(400, 600, "line")
         this.add.image(400, 300, 'title')
+        this.add.image(730, 585, "tag")
+        
         const btnStart = this.add.image(400, 500, 'btn_start').setInteractive()
 
         btnStart.once('pointerup', () => {
