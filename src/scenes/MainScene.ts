@@ -12,20 +12,18 @@ interface GameStatus {
 
 class MainScene extends Phaser.Scene {
     keyPrc: KeyProcessor
-    imgs: ImgHolder
+    imgs?: ImgHolder
     walls?: Phaser.Physics.Arcade.StaticGroup
     ballets?: Phaser.Physics.Arcade.Group
     chrs?: Phaser.Physics.Arcade.Group
     senkan?: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
     line?: Phaser.Physics.Arcade.Image
-    st: GameStatus
+    st?: GameStatus
     labelScore?: Phaser.GameObjects.Text
 
     constructor() {
         super({ key: 'mainscene' })
         this.keyPrc = new KeyProcessor(this)
-        this.imgs = new ImgHolder()
-        this.st = this.initStatus()
     }
     
     initStatus(): GameStatus {
@@ -37,8 +35,13 @@ class MainScene extends Phaser.Scene {
         }
     }
 
+    init(data: any) {
+        this.imgs = data.imgs
+    }
+
     preload() {
-        this.imgs.loadMain(this)
+        this.imgs!.loadMain(this)
+        this.st = this.initStatus()
         this.walls = this.physics.add.staticGroup()
         this.chrs = this.physics.add.group()
         this.ballets = this.physics.add.group({ classType: Bullet, runChildUpdate: true })
@@ -53,9 +56,9 @@ class MainScene extends Phaser.Scene {
                         this.physics.add.overlap(enemy, bullet, (enemy: any, bullet: any) => {
                             if (enemy.active === true && bullet.active === true) {
                                 enemy.destroy()
-                                this.st.score += 10
-                                this.st.maxEnemy = Math.floor(this.st.score / 100) + 1
-                                this.labelScore!.setText(`Score: ${this.st.score}`)
+                                this.st!.score += 10
+                                this.st!.maxEnemy = Math.floor(this.st!.score / 100) + 1
+                                this.labelScore!.setText(`Score: ${this.st!.score}`)
                             }
                         })
                     }
@@ -76,17 +79,30 @@ class MainScene extends Phaser.Scene {
 
         this.physics.add.collider(this.chrs!, this.walls!)
         this.physics.add.overlap(this.chrs!, this.line!, () => {
-            this.senkan?.anims.play('gameover')
-            this.st.gameOver = true
-
-            this.physics.pause()
+            this.gameover()
         })
 
         this.anims.create({
-            key: 'gameover',
+            key: 'senkan_death',
             frames: this.anims.generateFrameNumbers('senkan', { start: 0, end: 6 }),
             frameRate: 15
         })
+    }
+
+    gameover() {
+        this.senkan?.anims.play('senkan_death')
+        this.st!.gameOver = true
+        this.time.delayedCall(1000 , () => {
+            this.add.image(400, 300, 'gameover')
+            this.add.text(385, 285, String(this.st!.score), { fontSize: '30px', fontStyle: 'bold', color: '#547EFF', fontFamily: 'メイリオ' }).setOrigin(0)
+            this.add.image(280, 400, 'btn_retry').setInteractive().once('pointerup', () => {
+                this.scene.restart()
+            })
+            this.add.image(520, 400, 'btn_title').setInteractive().once('pointerup', () => {
+                this.scene.start('titlescene')
+            })
+        })
+        this.physics.pause()
     }
 
     createEnemy() {
@@ -95,7 +111,7 @@ class MainScene extends Phaser.Scene {
         enemy.setName(code)
         enemy.setBounce(1)
         enemy.setCollideWorldBounds(false, 1, 0)
-        enemy.setVelocity(Phaser.Math.Between(-80, 80), this.st.speed)
+        enemy.setVelocity(Phaser.Math.Between(-80, 80), this.st!.speed)
         enemy.allowGravity = false
         enemy.setVisible(true).setActive(true)
     }
@@ -105,11 +121,11 @@ class MainScene extends Phaser.Scene {
     }
 
     update() {
-        if (this.st.gameOver) {
+        if (this.st!.gameOver) {
             return
         }
 
-        while (this.chrs!.countActive(true) < this.st.maxEnemy) {
+        while (this.chrs!.countActive(true) < this.st!.maxEnemy) {
             this.createEnemy()
         }
     }

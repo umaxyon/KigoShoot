@@ -17,14 +17,14 @@ class TitleScene extends Phaser.Scene {
         this.imgs!.loadTitle(this)
     }
 
-    create() {
+    create(data: any) {
         this.add.image(400, 300, "sky")
         this.add.image(400, 600, "line")
         this.add.image(400, 300, 'title')
-        const btnStart = this.add.image(400, 500, 'start').setInteractive()
+        const btnStart = this.add.image(400, 500, 'btn_start').setInteractive()
 
         btnStart.once('pointerup', () => {
-            this.scene.start('mainscene')
+            this.scene.start('mainscene', data)
         })
     }
 }
