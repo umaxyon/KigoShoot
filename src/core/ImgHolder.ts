@@ -6,7 +6,7 @@ import imgLine from "../../assets/line.png"
 import imgLogo from "../../assets/phaser3-logo.png"
 import imgRed from "../../assets/red.png"
 import imgBullet from "../../assets/star.png"
-import imgSenkan from "../../assets/war_senkan_man.png"
+import imgSenkan from "../../assets/senkan_sp.png"
 
 
 import chr33 from "../../assets/char/33.png"
@@ -106,7 +106,6 @@ class ImgHolder {
             "125": chr125,
             "126": chr126,
             "bullet": imgBullet,
-            "senkan": imgSenkan,
         }
     }
     
@@ -114,6 +113,7 @@ class ImgHolder {
         Object.keys(this.imgs).forEach(key => {
             this.scene.load.image(key, this.imgs[key])
         })
+        this.scene.load.spritesheet('senkan', imgSenkan, { frameWidth: 180, frameHeight: 140 })
     }
 }
 export default ImgHolder

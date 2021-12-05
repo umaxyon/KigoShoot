@@ -6,7 +6,8 @@ import Bullet from "../core/Bullet"
 interface GameStatus {
     score: number,
     speed: number,
-    maxEnemy: number
+    maxEnemy: number,
+    gameOver: boolean
 }
 
 class MainScene extends Phaser.Scene {
@@ -15,7 +16,8 @@ class MainScene extends Phaser.Scene {
     walls?: Phaser.Physics.Arcade.StaticGroup
     ballets?: Phaser.Physics.Arcade.Group
     chrs?: Phaser.Physics.Arcade.Group
-    senkan?: Phaser.Physics.Arcade.Image
+    senkan?: Phaser.Types.Physics.Arcade.SpriteWithDynamicBody
+    line?: Phaser.Physics.Arcade.Image
     st: GameStatus
     labelScore?: Phaser.GameObjects.Text
 
@@ -30,7 +32,8 @@ class MainScene extends Phaser.Scene {
         return {
             score: 0,
             speed: 20,
-            maxEnemy: 1
+            maxEnemy: 1,
+            gameOver: false
         }
     }
 
@@ -63,8 +66,8 @@ class MainScene extends Phaser.Scene {
 
     create() {
         this.add.image(400, 300, "sky")
-        this.add.image(400, 600, "line")
-        this.senkan = this.physics.add.image(400, 550, 'senkan').setScale(0.7)
+        this.line = this.physics.add.image(400, 600, "line")
+        this.senkan = this.physics.add.sprite(400, 550, 'senkan').setScale(0.7)
 
         this.walls!.create(-15, 300, "wall")
         this.walls!.create(815, 300, "wall")
@@ -72,6 +75,18 @@ class MainScene extends Phaser.Scene {
         this.labelScore = this.add.text(16, 560, `Score: 0`, { fontSize: '15px', color: '#022', fontStyle: 'bold', fontFamily: 'メイリオ' })
 
         this.physics.add.collider(this.chrs!, this.walls!)
+        this.physics.add.overlap(this.chrs!, this.line!, () => {
+            this.senkan?.anims.play('gameover')
+            this.st.gameOver = true
+
+            this.physics.pause()
+        })
+
+        this.anims.create({
+            key: 'gameover',
+            frames: this.anims.generateFrameNumbers('senkan', { start: 0, end: 6 }),
+            frameRate: 15
+        })
     }
 
     createEnemy() {
@@ -90,6 +105,10 @@ class MainScene extends Phaser.Scene {
     }
 
     update() {
+        if (this.st.gameOver) {
+            return
+        }
+
         while (this.chrs!.countActive(true) < this.st.maxEnemy) {
             this.createEnemy()
         }
