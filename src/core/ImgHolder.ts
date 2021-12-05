@@ -8,7 +8,8 @@ import imgRed from "../../assets/red.png"
 import imgBullet from "../../assets/star.png"
 import imgSenkan from "../../assets/senkan_sp.png"
 import imgTitle from "../../assets/title.png"
-import imgBtnStart from "../../assets/start.png"
+import imgBtnEasy from "../../assets/start_easy.png"
+import imgBtnHard from "../../assets/start_hard.png"
 import imgGameOver from "../../assets/gameover.png"
 import imgBtnTitle from "../../assets/btn_title.png"
 import imgBtnRetry from "../../assets/btn_retry.png"
@@ -130,7 +131,8 @@ class ImgHolder {
         scene.load.image('line', imgLine)
         scene.load.image('title', imgTitle)
         scene.load.image('tag', imgTag)
-        scene.load.image('btn_start', imgBtnStart)
+        scene.load.image('btn_easy', imgBtnEasy)
+        scene.load.image('btn_hard', imgBtnHard)
     }
 }
 export default ImgHolder

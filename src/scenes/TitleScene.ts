@@ -22,10 +22,13 @@ class TitleScene extends Phaser.Scene {
         this.add.image(400, 600, "line")
         this.add.image(400, 300, 'title')
         this.add.image(730, 585, "tag")
-        
-        const btnStart = this.add.image(400, 500, 'btn_start').setInteractive()
 
-        btnStart.once('pointerup', () => {
+        this.add.image(280, 500, 'btn_easy').setInteractive().once('pointerup', () => {
+            data.speed = 20
+            this.scene.start('mainscene', data)
+        })
+        this.add.image(530, 500, 'btn_hard').setInteractive().once('pointerup', () => {
+            data.speed = 100
             this.scene.start('mainscene', data)
         })
     }

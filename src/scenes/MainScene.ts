@@ -36,12 +36,13 @@ class MainScene extends Phaser.Scene {
     }
 
     init(data: any) {
+        this.st = this.initStatus()
         this.imgs = data.imgs
+        this.st!.speed = data.speed
     }
 
     preload() {
         this.imgs!.loadMain(this)
-        this.st = this.initStatus()
         this.walls = this.physics.add.staticGroup()
         this.chrs = this.physics.add.group()
         this.ballets = this.physics.add.group({ classType: Bullet, runChildUpdate: true })
@@ -94,12 +95,15 @@ class MainScene extends Phaser.Scene {
         this.senkan?.anims.play('senkan_death')
         this.st!.gameOver = true
         this.time.delayedCall(1000 , () => {
+            const textStyle = { fontSize: '30px', fontStyle: 'bold', color: '#547EFF', fontFamily: 'メイリオ' }
             this.add.image(400, 300, 'gameover')
-            this.add.text(385, 285, String(this.st!.score), { fontSize: '30px', fontStyle: 'bold', color: '#547EFF', fontFamily: 'メイリオ' }).setOrigin(0)
-            this.add.image(280, 400, 'btn_retry').setInteractive().once('pointerup', () => {
+
+            this.add.text(385, 285, String(this.st!.score), textStyle).setOrigin(0)
+            this.add.text(385, 324, this.st!.speed === 100 ? 'Hard': 'Easy', textStyle).setOrigin(0)
+            this.add.image(280, 410, 'btn_retry').setInteractive().once('pointerup', () => {
                 this.scene.restart()
             })
-            this.add.image(520, 400, 'btn_title').setInteractive().once('pointerup', () => {
+            this.add.image(520, 410, 'btn_title').setInteractive().once('pointerup', () => {
                 this.scene.start('titlescene')
             })
         })
