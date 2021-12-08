@@ -47,10 +47,10 @@ class MainScene extends Phaser.Scene {
         this.chrs = this.physics.add.group()
         this.ballets = this.physics.add.group({ classType: Bullet, runChildUpdate: true })
 
-        this.keyPrc.attachEvent().addListner((keyCode: number, pressShift: boolean) => {
+        this.keyPrc.attachEvent().addListner((key: string, pressShift: boolean) => {
 
             this.chrs?.children.iterate(enemy => {
-                if (this.isTarget(enemy, keyCode, pressShift)) {
+                if (enemy.name == key) {
                     const bullet = this.ballets?.get().setActive(true).setVisible(true)
                     if (bullet) {
                         bullet.fire(this.senkan, enemy)
@@ -111,18 +111,11 @@ class MainScene extends Phaser.Scene {
     }
 
     createEnemy() {
-        const code = this.keyPrc.getRundomKeyCode()
-        const enemy = this.chrs!.create(Phaser.Math.Between(30, 770), -13, code).setScale(0.3)
-        enemy.setName(code)
-        enemy.setBounce(1)
-        enemy.setCollideWorldBounds(false, 1, 0)
-        enemy.setVelocity(Phaser.Math.Between(-80, 80), this.st!.speed)
+        const key = this.keyPrc.getRundomKey()
+        const enemy = this.chrs!.create(Phaser.Math.Between(30, 770), -13, String(key.charCodeAt(0))).setScale(0.3)
         enemy.allowGravity = false
+        enemy.setName(key).setBounce(1).setCollideWorldBounds(false, 1, 0).setVelocity(Phaser.Math.Between(-80, 80), this.st!.speed)
         enemy.setVisible(true).setActive(true)
-    }
-
-    isTarget(enemy: Phaser.GameObjects.GameObject, keyCode: number, pressShift: boolean) {
-        return parseInt(enemy.name) === this.keyPrc.downKeyCodeToAscii(keyCode, pressShift)
     }
 
     update() {
