@@ -111,6 +111,7 @@ class ImgHolder {
             "124": chr124,
             "125": chr125,
             "126": chr126,
+            "165": chr95,
             "bullet": imgBullet,
             "gameover": imgGameOver,
             "btn_title": imgBtnTitle,

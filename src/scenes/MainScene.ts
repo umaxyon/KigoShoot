@@ -50,7 +50,7 @@ class MainScene extends Phaser.Scene {
         this.keyPrc.attachEvent().addListner((key: string, pressShift: boolean) => {
 
             this.chrs?.children.iterate(enemy => {
-                if (enemy.name == key) {
+                if (this.isTarget(enemy.name, key)) {
                     const bullet = this.ballets?.get().setActive(true).setVisible(true)
                     if (bullet) {
                         bullet.fire(this.senkan, enemy)
@@ -95,7 +95,7 @@ class MainScene extends Phaser.Scene {
         this.senkan?.anims.play('senkan_death')
         this.st!.gameOver = true
         this.time.delayedCall(1000 , () => {
-            const textStyle = { fontSize: '30px', fontStyle: 'bold', color: '#547EFF', fontFamily: 'メイリオ' }
+            const textStyle = { fontSize: '30px', fontStyle: 'bold', color: '#547EFF', fontFamily: "'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', Meiryo, メイリオ, Osaka, 'MS PGothic', arial, helvetica, sans-serif" }
             this.add.image(400, 300, 'gameover')
 
             this.add.text(385, 285, String(this.st!.score), textStyle).setOrigin(0)
@@ -116,6 +116,15 @@ class MainScene extends Phaser.Scene {
         enemy.allowGravity = false
         enemy.setName(key).setBounce(1).setCollideWorldBounds(false, 1, 0).setVelocity(Phaser.Math.Between(-80, 80), this.st!.speed)
         enemy.setVisible(true).setActive(true)
+    }
+
+    isTarget(name: string, key: string) {
+        if (name === '\\') {
+            if (!window.navigator.userAgent.includes('Win')) {
+                return '¥' === key
+            }
+        }
+        return name === key
     }
 
     update() {
