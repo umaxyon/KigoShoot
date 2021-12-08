@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build --base=/services/kigoujigoku/",
+    "build_production": "tsc && vite build --base=/MaiuBlog/services/kigoujigoku/",
     "serve": "vite preview"
   },
   "dependencies": {
